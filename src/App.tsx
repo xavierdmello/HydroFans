@@ -1,4 +1,4 @@
-import { FaAppleAlt, FaCog, FaHome, FaLeaf, FaWater } from 'react-icons/fa';
+import { FaAppleAlt, FaCog, FaComments, FaHome, FaLeaf, FaMedal, FaTint, FaWater } from 'react-icons/fa';
 import React, { useCallback, useRef, useState } from 'react';
 
 import Leaderboard from './util/Leaderboard';
@@ -96,9 +96,9 @@ function App() {
     switch (currentPage) {
       case "home":
         return null;
-      case "water":
+      case "waterIntake":
         return <WaterIntakeForm />;
-      case "nutrition":
+      case "leaderboard":
         return (
           <div>
             <Leaderboard
@@ -110,7 +110,7 @@ function App() {
           </div>
         );
 
-      case 'environment':
+      case 'posts':
         return <WaterPosts />;
       case 'settings':
 
@@ -156,23 +156,23 @@ function App() {
             }`}
             onClick={() => setCurrentPage("home")}
           />
-          <FaWater
+          <FaTint
             className={`text-2xl cursor-pointer ${
-              currentPage === "water" ? "text-blue-600" : "text-gray-600"
+              currentPage === "waterIntake" ? "text-blue-600" : "text-gray-600"
             }`}
-            onClick={() => setCurrentPage("water")}
+            onClick={() => setCurrentPage("waterIntake")}
           />
-          <FaAppleAlt
+          <FaMedal
             className={`text-2xl cursor-pointer ${
-              currentPage === "nutrition" ? "text-blue-600" : "text-gray-600"
+              currentPage === "leaderboard" ? "text-blue-600" : "text-gray-600"
             }`}
-            onClick={() => setCurrentPage("nutrition")}
+            onClick={() => setCurrentPage("leaderboard")}
           />
-          <FaLeaf
+          <FaComments
             className={`text-2xl cursor-pointer ${
-              currentPage === "environment" ? "text-blue-600" : "text-gray-600"
+              currentPage === "posts" ? "text-blue-600" : "text-gray-600"
             }`}
-            onClick={() => setCurrentPage("environment")}
+            onClick={() => setCurrentPage("posts")}
           />
           <FaCog
             className={`text-2xl cursor-pointer ${
