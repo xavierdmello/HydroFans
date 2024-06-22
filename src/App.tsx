@@ -1,11 +1,10 @@
-import { FaAppleAlt, FaCog, FaHome, FaLeaf, FaWater } from 'react-icons/fa';
 import React, { useCallback, useRef, useState } from 'react';
-
+import Webcam from "react-webcam";
+import { FaAppleAlt, FaCog, FaHome, FaLeaf, FaWater } from 'react-icons/fa';
+import logo from "/logo.png";
+import RecordButton from "./components/RecordButton";
 import Leaderboard from './util/Leaderboard';
 import WaterIntakeForm from './components/WaterIntakeForm';
-import WaterPosts from './components/WaterPosts';
-import Webcam from 'react-webcam';
-import logo from '/logo.png';
 
 const mostWaterIntakeUsers = [
   { rank: 1, name: 'Alice', metric: '100 oz', profilePic: 'https://via.placeholder.com/32' },
@@ -22,9 +21,14 @@ const longestStreakUsers = [
 function App() {
   const webcamRef = useRef<Webcam>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment');
+  const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
   const [base64Image, setBase64Image] = useState<string | ArrayBuffer | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
   const [currentPage, setCurrentPage] = useState<string>('home');
+
+  const toggleRecording = useCallback(() => {
+    setIsRecording((prev) => !prev);
+  }, []);
 
   const videoConstraints = {
     width: 480,
@@ -39,13 +43,13 @@ function App() {
       const image = new Image();
       image.src = imageSrc;
       image.onload = () => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         canvas.width = image.width;
         canvas.height = image.height;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         if (ctx) {
           ctx.drawImage(image, 0, 0);
-          const base64Image = canvas.toDataURL('image/jpeg');
+          const base64Image = canvas.toDataURL("image/jpeg");
           setBase64Image(base64Image);
         }
       };
@@ -59,13 +63,15 @@ function App() {
       case 'water':
         return <WaterIntakeForm />;
       case 'nutrition':
-        return <div>
-        <Leaderboard title="Most Water Intake Today" users={mostWaterIntakeUsers} />
-        <br />
-        <Leaderboard title="Longest Streak" users={longestStreakUsers} />
-      </div>;
+        return (
+          <div>
+            <Leaderboard title="Most Water Intake Today" users={mostWaterIntakeUsers} />
+            <br />
+            <Leaderboard title="Longest Streak" users={longestStreakUsers} />
+          </div>
+        );
       case 'environment':
-        return <WaterPosts />;
+        return null;
       case 'settings':
         return <WaterIntakeForm />;
       default:
@@ -77,19 +83,26 @@ function App() {
     <div className="min-h-screen bg-[#00afef] flex flex-col items-center justify-center py-4">
       <div className="md:w-4/5 w-[95%] max-w-[800px] mx-auto flex flex-col items-center bg-white rounded-2xl shadow-lg h-full min-h-[calc(100vh-2rem)]">
         <img src={logo} className="w-64 mt-8 mb-8" alt="Hydrofans" />
-       {currentPage === 'home' && <div className="mx-5 overflow-hidden rounded-lg md:max-w-[50%] max-w-[95%]">
-          {capturedImage ? (
-            <img src={capturedImage} alt="Captured" className="w-full" />
-          ) : (
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              className="w-full"
-              videoConstraints={videoConstraints}
+        {currentPage === 'home' && (
+          <div className="mx-5 overflow-hidden rounded-lg md:max-w-[50%] max-w-[95%]">
+            {capturedImage ? (
+              <img src={capturedImage} alt="Captured" className="w-full" />
+            ) : (
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                className="w-full"
+                videoConstraints={videoConstraints}
+              />
+            )}
+            <br/>
+            <RecordButton
+              isRecording={isRecording}
+              onToggleRecording={toggleRecording}
             />
-          )}
-        </div>}
+          </div>
+        )}
         <div className="flex-grow">{renderPage()}</div>
         <div className="w-full mt-auto flex justify-around py-4 bg-gray-200">
           <FaHome
