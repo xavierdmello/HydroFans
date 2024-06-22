@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 
+import WaterTracking from './WaterTracking';
+
+const suggestedIntake = 2000; // Example suggested intake
+const currentIntake = 1500; // Example current intake
+const dailyIntake = Array(30).fill(0).map((_, i) => (i % 5 === 0 ? suggestedIntake : Math.floor(Math.random() * suggestedIntake))); // Example daily intake for the current month
+
 const WaterIntakeForm: React.FC = () => {
   const [age, setAge] = useState<number | ''>('');
   const [weight, setWeight] = useState<number | ''>('');
@@ -24,8 +30,8 @@ const WaterIntakeForm: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Water Intake Calculator</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      {waterIntake == null && <div>      <h1 className="text-2xl font-bold mb-4">Water Intake Calculator</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">Age</label>
           <input
@@ -72,10 +78,11 @@ const WaterIntakeForm: React.FC = () => {
         >
           Calculate
         </button>
-      </form>
+      </form></div>}
       {waterIntake !== null && (
         <div className="mt-4">
           <p className="text-lg font-bold">Recommended Water Intake: {waterIntake.toFixed(2)} cups per day</p>
+          <WaterTracking currentIntake={currentIntake} suggestedIntake={suggestedIntake} dailyIntake={dailyIntake} />
         </div>
       )}
     </div>
