@@ -6,7 +6,7 @@ export default {
       keyframes: {
         record: {
           "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(0.9)" },
+          "50%": { transform: "scale(0.95)" },
         },
       },
       animation: {
