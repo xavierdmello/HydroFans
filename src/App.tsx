@@ -1,16 +1,12 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import logo from "/logo.png";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1 className="text-4xl font-bold">Hello World</h1>
-    </>
-  )
+    <div className="w-4/5 max-w-[1200px] mx-auto flex flex-col items-center bg-white h-full min-h-screen">
+      <img src={logo} className="w-64" alt="Hydrofans" />
+    </div>
+  );
 }
 
-export default App
+export default App;
