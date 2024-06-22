@@ -1,10 +1,19 @@
-import { FaAppleAlt, FaCog, FaComments, FaHome, FaLeaf, FaMedal, FaTint, FaWater } from 'react-icons/fa';
-import { useCallback, useRef, useState } from 'react';
+import {
+  FaAppleAlt,
+  FaCog,
+  FaComments,
+  FaHome,
+  FaLeaf,
+  FaMedal,
+  FaTint,
+  FaWater,
+} from "react-icons/fa";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import Leaderboard from './util/Leaderboard';
+import Leaderboard from "./util/Leaderboard";
 import RecordButton from "./components/RecordButton";
-import WaterIntakeForm from './components/WaterIntakeForm';
-import WaterPosts from './components/WaterPosts';
+import WaterIntakeForm from "./components/WaterIntakeForm";
+import WaterPosts from "./components/WaterPosts";
 import Webcam from "react-webcam";
 import logo from "/logo.png";
 
@@ -52,13 +61,13 @@ const longestStreakUsers = [
 
 function App() {
   const webcamRef = useRef<Webcam>(null);
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+
+  // Internal variable used by capture - do not use, does not store image data. Check the base64 variables.
+  const [capturedImage, setCapturedImage] = useState<string>("");
   const [facingMode, setFacingMode] = useState<"user" | "environment">(
     "environment"
   );
-  const [base64Image, setBase64Image] = useState<string | ArrayBuffer | null>(
-    null
-  );
+  const [base64Image, setBase64Image] = useState<string>("");
   const [isRecording, setIsRecording] = useState(false);
   const [currentPage, setCurrentPage] = useState<string>("home");
 
@@ -71,6 +80,13 @@ function App() {
     height: 640,
     facingMode: facingMode,
   };
+
+  useEffect(() => {
+    if (isRecording) {
+      capture();
+    } else {
+    }
+  }, [isRecording]);
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
@@ -87,6 +103,7 @@ function App() {
           ctx.drawImage(image, 0, 0);
           const base64Image = canvas.toDataURL("image/jpeg");
           setBase64Image(base64Image);
+          console.log(base64Image);
         }
       };
     }
@@ -110,10 +127,9 @@ function App() {
           </div>
         );
 
-      case 'posts':
+      case "posts":
         return <WaterPosts />;
-      case 'settings':
-
+      case "settings":
         return <WaterIntakeForm />;
       default:
         return null;
@@ -128,7 +144,7 @@ function App() {
           <div className="mx-5 overflow-hidden rounded-lg flex flex-col items-center md:max-w-[50%] max-w-[95%]">
             {capturedImage ? (
               <img
-                src={capturedImage}
+                src={base64Image}
                 alt="Captured"
                 className="w-full rounded-lg"
               />
