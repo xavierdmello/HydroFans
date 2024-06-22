@@ -22,12 +22,24 @@ const posts: Post[] = [
     amountDrank: '750ml',
     videoUrl: 'https://www.w3schools.com/html/movie.mp4',
   },
+  {
+    name: 'Alice',
+    time: '2 hours ago',
+    amountDrank: '500ml',
+    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+  },
+  {
+    name: 'Bob',
+    time: '4 hours ago',
+    amountDrank: '750ml',
+    videoUrl: 'https://www.w3schools.com/html/movie.mp4',
+  },
   // Add more posts as needed
 ];
 
 const WaterPosts: React.FC = () => {
   return (
-    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md" style={{ maxHeight: '700px' , overflowY:"scroll"}}>
+    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md" style={{ maxHeight: '75vh' , overflowY:"scroll"}}>
       <h2 className="text-xl font-bold mb-4">Water Drinking Posts</h2>
       <div className="space-y-4">
         {posts.map((post, index) => (
