@@ -84,7 +84,7 @@ function App() {
       <div className="md:w-4/5 w-[95%] max-w-[800px] mx-auto flex flex-col items-center bg-white rounded-2xl shadow-lg h-full min-h-[calc(100vh-2rem)]">
         <img src={logo} className="w-64 mt-8 mb-8" alt="Hydrofans" />
         {currentPage === 'home' && (
-          <div className="mx-5 overflow-hidden rounded-lg md:max-w-[50%] max-w-[95%]">
+          <div className="mx-5 overflow-hidden rounded-lg flex flex-col items-center md:max-w-[50%] max-w-[95%]">
             {capturedImage ? (
               <img src={capturedImage} alt="Captured" className="w-full" />
             ) : (
