@@ -1,3 +1,4 @@
+import WaterIntakeForm from "./components/WaterIntakeForm";
 import { useState, useRef, useCallback} from "react";
 import logo from "/logo.png";
 import Webcam from "react-webcam";
