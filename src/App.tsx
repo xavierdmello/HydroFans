@@ -1,5 +1,5 @@
 import { FaAppleAlt, FaCog, FaComments, FaHome, FaLeaf, FaMedal, FaTint, FaWater } from 'react-icons/fa';
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import Leaderboard from './util/Leaderboard';
 import RecordButton from "./components/RecordButton";
