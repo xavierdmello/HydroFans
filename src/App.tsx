@@ -71,11 +71,33 @@ function App() {
   const [endWaterImage, setEndWaterImage] = useState<string>("");
   const [isRecording, setIsRecording] = useState(false);
   const [currentPage, setCurrentPage] = useState<string>("home");
+  const [challengeStatus, setChallengeStatus] = useState<
+    | "notStarted"
+    | "verifyingFull"
+    | "verifyingEmpty"
+    | "failedNotFull"
+    | "failedNotEmpty"
+  >("notStarted");
+
+  useEffect(() => {
+    if (isRecording && challengeStatus === "notStarted") {
+      setChallengeStatus("verifyingFull");
+    }
+  }, [isRecording]);
+
+  // Once the record button is pressed and an image has been saved, send it to the Claude API.
+  useEffect(() =>  {
+
+  }, [challengeStatus])
 
   const toggleRecording = useCallback(() => {
     setIsRecording((prev) => !prev);
   }, []);
 
+
+  useEffect(() => {
+    console.log("challenge status: ", challengeStatus);
+  }, [challengeStatus]);
   const videoConstraints = {
     width: 480,
     height: 640,
@@ -153,12 +175,14 @@ function App() {
               className="w-full rounded-lg"
               videoConstraints={videoConstraints}
             />
-            
+
             <br />
-            <RecordButton
-              isRecording={isRecording}
-              onToggleRecording={toggleRecording}
-            />
+ 
+              <RecordButton
+                isRecording={isRecording}
+                onToggleRecording={toggleRecording}
+              />
+      
           </div>
         )}
         <div className="flex-grow">{renderPage()}</div>
