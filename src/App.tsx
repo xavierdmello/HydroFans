@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from 'react';
 
 import Leaderboard from './util/Leaderboard';
 import WaterIntakeForm from './components/WaterIntakeForm';
+import WaterPosts from './components/WaterPosts';
 import Webcam from 'react-webcam';
 import logo from '/logo.png';
 
@@ -64,7 +65,7 @@ function App() {
         <Leaderboard title="Longest Streak" users={longestStreakUsers} />
       </div>;
       case 'environment':
-        return null;
+        return <WaterPosts />;
       case 'settings':
         return <WaterIntakeForm />;
       default:
