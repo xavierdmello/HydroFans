@@ -67,7 +67,8 @@ function App() {
   const [facingMode, setFacingMode] = useState<"user" | "environment">(
     "environment"
   );
-  const [base64Image, setBase64Image] = useState<string>("");
+  const [initialWaterImage, setInitialWaterImage] = useState<string>("");
+  const [endWaterImage, setEndWaterImage] = useState<string>("");
   const [isRecording, setIsRecording] = useState(false);
   const [currentPage, setCurrentPage] = useState<string>("home");
 
@@ -83,31 +84,34 @@ function App() {
 
   useEffect(() => {
     if (isRecording) {
-      capture();
+      capture(setInitialWaterImage);
     } else {
+      capture(setEndWaterImage);
     }
   }, [isRecording]);
 
-  const capture = useCallback(() => {
-    const imageSrc = webcamRef.current?.getScreenshot();
-    if (imageSrc) {
-      setCapturedImage(imageSrc);
-      const image = new Image();
-      image.src = imageSrc;
-      image.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = image.width;
-        canvas.height = image.height;
-        const ctx = canvas.getContext("2d");
-        if (ctx) {
-          ctx.drawImage(image, 0, 0);
-          const base64Image = canvas.toDataURL("image/jpeg");
-          setBase64Image(base64Image);
-          console.log(base64Image);
-        }
-      };
-    }
-  }, [webcamRef]);
+  const capture = useCallback(
+    (setImageState: React.Dispatch<React.SetStateAction<string>>) => {
+      const imageSrc = webcamRef.current?.getScreenshot();
+      if (imageSrc) {
+        setCapturedImage(imageSrc);
+        const image = new Image();
+        image.src = imageSrc;
+        image.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = image.width;
+          canvas.height = image.height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(image, 0, 0);
+            const base64Image = canvas.toDataURL("image/jpeg");
+            setImageState(base64Image);
+          }
+        };
+      }
+    },
+    [webcamRef]
+  );
 
   const renderPage = () => {
     switch (currentPage) {
@@ -142,21 +146,14 @@ function App() {
         <img src={logo} className="w-64 mt-8 mb-8" alt="Hydrofans" />
         {currentPage === "home" && (
           <div className="mx-5 overflow-hidden rounded-lg flex flex-col items-center md:max-w-[50%] max-w-[95%]">
-            {capturedImage ? (
-              <img
-                src={base64Image}
-                alt="Captured"
-                className="w-full rounded-lg"
-              />
-            ) : (
-              <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                className="w-full rounded-lg"
-                videoConstraints={videoConstraints}
-              />
-            )}
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              className="w-full rounded-lg"
+              videoConstraints={videoConstraints}
+            />
+            
             <br />
             <RecordButton
               isRecording={isRecording}
