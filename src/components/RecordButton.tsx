@@ -23,17 +23,23 @@ const RecordButton: React.FC<RecordButtonProps> = ({
   return (
     <button
       onClick={onToggleRecording}
-      className={`w-16 h-16 rounded-full border-2 border-black flex items-center justify-center focus:outline-none transition-all duration-300 ${
-        isRecording ? "bg-red-500" : "bg-red-500 hover:bg-red-600"
+      className={`w-20 h-20 rounded-full border-4 border-black flex items-center justify-center focus:outline-none transition-all duration-300 ${
+        isRecording ? "bg-transparent" : "bg-transparent hover:bg-gray-200"
       }`}
     >
       <div
-        className={`${
-          isRecording
-            ? "w-6 h-6 rounded-sm bg-red-500"
-            : "w-12 h-12 rounded-full bg-red-500"
-        } ${animate ? "animate-record" : ""} transition-all duration-300`}
-      ></div>
+        className={`w-16 h-16 rounded-full flex items-center justify-center ${
+          isRecording ? "bg-transparent" : "bg-red-500"
+        }`}
+      >
+        <div
+          className={`${
+            isRecording
+              ? "w-8 h-8 rounded-sm bg-red-500"
+              : "w-12 h-12 rounded-full bg-red-500"
+          } ${animate ? "animate-record" : ""} transition-all duration-300`}
+        ></div>
+      </div>
     </button>
   );
 };
