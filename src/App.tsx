@@ -1,10 +1,12 @@
-import React, { useCallback, useRef, useState } from 'react';
-import Webcam from "react-webcam";
 import { FaAppleAlt, FaCog, FaHome, FaLeaf, FaWater } from 'react-icons/fa';
-import logo from "/logo.png";
-import RecordButton from "./components/RecordButton";
+import React, { useCallback, useRef, useState } from 'react';
+
 import Leaderboard from './util/Leaderboard';
+import RecordButton from "./components/RecordButton";
 import WaterIntakeForm from './components/WaterIntakeForm';
+import WaterPosts from './components/WaterPosts';
+import Webcam from "react-webcam";
+import logo from "/logo.png";
 
 const mostWaterIntakeUsers = [
   { rank: 1, name: 'Alice', metric: '100 oz', profilePic: 'https://via.placeholder.com/32' },
@@ -71,7 +73,7 @@ function App() {
           </div>
         );
       case 'environment':
-        return null;
+        return <WaterPosts />;
       case 'settings':
         return <WaterIntakeForm />;
       default:
