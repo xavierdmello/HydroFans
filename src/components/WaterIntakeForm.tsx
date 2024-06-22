@@ -32,7 +32,7 @@ const WaterIntakeForm: React.FC = () => {
         <h1 className="text-2xl font-bold mb-4">Water Intake Calculator</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Age</label>
+          <label className="block text-sm font-medium text-gray-700">Age (years)</label>
           <input
             type="number"
             value={age}
@@ -52,7 +52,7 @@ const WaterIntakeForm: React.FC = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Height</label>
+          <label className="block text-sm font-medium text-gray-700">Height (cm)</label>
           <input
             type="number"
             value={height}
