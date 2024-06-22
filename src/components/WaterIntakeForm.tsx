@@ -4,7 +4,7 @@ import WaterTracking from './WaterTracking';
 
 const suggestedIntake = 2000; // Example suggested intake
 const currentIntake = 1500; // Example current intake
-const dailyIntake = Array(30).fill(0).map((_, i) => (i % 5 === 0 ? suggestedIntake : Math.floor(Math.random() * suggestedIntake))); // Example daily intake for the current month
+const dailyIntake = [2000, 1500, 1800, 1900, 1600, 1700, 2000, 1500, 1800, 1900, 1600, 1700, 2000, 1500, 1800, 1900, 1600, 1700, 2000, 1500, 1800, 1900]; 
 
 const WaterIntakeForm: React.FC = () => {
   const [age, setAge] = useState<number | ''>('');

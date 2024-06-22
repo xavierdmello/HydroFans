@@ -20,8 +20,11 @@ const WaterTracking: React.FC<WaterTrackingProps> = ({ currentIntake, suggestedI
   const getDayColor = (intake: number) => {
     const intensity = intake / suggestedIntake;
     if (intensity >= 1) return 'bg-blue-600';
-    if (intensity >= 0.75) return 'bg-blue-400';
-    if (intensity >= 0.5) return 'bg-blue-200';
+    if (intensity >= 0.9) return 'bg-blue-500';
+    if (intensity >= 0.8) return 'bg-blue-400';
+    if (intensity >= 0.7) return 'bg-blue-300';
+    if (intensity >= 0.6) return 'bg-blue-200';
+    if (intensity >= 0.5) return 'bg-blue-100';
     if (intensity > 0) return 'bg-gray-300';
     return 'bg-gray-100';
   };
@@ -63,7 +66,7 @@ const WaterTracking: React.FC<WaterTrackingProps> = ({ currentIntake, suggestedI
         </div>
       </div>
       <div>
-        <h3 className="text-lg font-bold mb-2">Daily Intake</h3>
+        <h3 className="text-lg font-bold mb-2">Daily Intake (June 2024)</h3>
         <div className="grid grid-cols-7 gap-1">
           {calendarCells}
         </div>
