@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import Modal from './Modal';
 
 interface WaterTrackingProps {
   currentIntake: number;
@@ -7,12 +9,14 @@ interface WaterTrackingProps {
 }
 
 const WaterTracking: React.FC<WaterTrackingProps> = ({ currentIntake, suggestedIntake, dailyIntake }) => {
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedIntake, setSelectedIntake] = useState<number | null>(null);
   const currentIntakeInCups = (currentIntake / 240).toFixed(2);
   const suggestedIntakeInCups = (suggestedIntake / 240).toFixed(2);
 
-  const maxIntake = Math.max(...dailyIntake, suggestedIntake);
-
   const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+  const firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay();
+
   const getDayColor = (intake: number) => {
     const intensity = intake / suggestedIntake;
     if (intensity >= 1) return 'bg-blue-600';
@@ -21,6 +25,26 @@ const WaterTracking: React.FC<WaterTrackingProps> = ({ currentIntake, suggestedI
     if (intensity > 0) return 'bg-gray-300';
     return 'bg-gray-100';
   };
+
+  const handleClick = (day: number) => {
+    setSelectedDay(day);
+    setSelectedIntake(dailyIntake[day - 1] || 0);
+  };
+
+  const calendarCells = Array.from({ length: firstDayOfMonth + daysInMonth }, (_, i) => {
+    const day = i - firstDayOfMonth + 1;
+    return day > 0 ? (
+      <div
+        key={i}
+        className={`w-10 h-10 flex items-center justify-center ${getDayColor(dailyIntake[day - 1] || 0)} cursor-pointer`}
+        onClick={() => handleClick(day)}
+      >
+        {day}
+      </div>
+    ) : (
+      <div key={i} className="w-10 h-10" />
+    );
+  });
 
   return (
     <div className="p-4 max-w-md mx-auto bg-white rounded-lg shadow-md">
@@ -41,15 +65,15 @@ const WaterTracking: React.FC<WaterTrackingProps> = ({ currentIntake, suggestedI
       <div>
         <h3 className="text-lg font-bold mb-2">Daily Intake</h3>
         <div className="grid grid-cols-7 gap-1">
-          {Array.from({ length: daysInMonth }).map((_, day) => (
-            <div
-              key={day}
-              className={`w-8 h-8 ${getDayColor(dailyIntake[day] || 0)}`}
-              title={`${day + 1}: ${dailyIntake[day] || 0} mL`}
-            />
-          ))}
+          {calendarCells}
         </div>
       </div>
+      <Modal
+        isOpen={selectedDay !== null}
+        onClose={() => setSelectedDay(null)}
+        day={selectedDay}
+        intake={selectedIntake}
+      />
     </div>
   );
 };
