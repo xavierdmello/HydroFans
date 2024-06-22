@@ -1,10 +1,12 @@
-import React, { useCallback, useRef, useState } from "react";
-import Webcam from "react-webcam";
-import { FaAppleAlt, FaCog, FaHome, FaLeaf, FaWater } from "react-icons/fa";
-import logo from "/logo.png";
+import { FaAppleAlt, FaCog, FaHome, FaLeaf, FaWater } from 'react-icons/fa';
+import React, { useCallback, useRef, useState } from 'react';
+
+import Leaderboard from './util/Leaderboard';
 import RecordButton from "./components/RecordButton";
-import Leaderboard from "./util/Leaderboard";
-import WaterIntakeForm from "./components/WaterIntakeForm";
+import WaterIntakeForm from './components/WaterIntakeForm';
+import WaterPosts from './components/WaterPosts';
+import Webcam from "react-webcam";
+import logo from "/logo.png";
 
 const mostWaterIntakeUsers = [
   {
@@ -107,9 +109,11 @@ function App() {
             <Leaderboard title="Longest Streak" users={longestStreakUsers} />
           </div>
         );
-      case "environment":
-        return null;
-      case "settings":
+
+      case 'environment':
+        return <WaterPosts />;
+      case 'settings':
+
         return <WaterIntakeForm />;
       default:
         return null;
